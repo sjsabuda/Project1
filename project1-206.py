@@ -1,3 +1,4 @@
+
 import os
 import filecmp
 from dateutil.relativedelta import *
@@ -36,8 +37,23 @@ def classSizes(data):
 # Output: Return a list of tuples sorted by the number of students in that class in
 # descending order
 # [('Senior', 26), ('Junior', 25), ('Freshman', 21), ('Sophomore', 18)]
-
-	pass
+	fresh = 0
+	soph = 0
+	juni = 0
+	seni = 0 
+	for dic in data:
+		if dic.get('Class') == "Freshman":
+			fresh = 1 + fresh
+		if dic.get('Class') == "Sophomore":
+			soph = 1 + soph
+		if dic.get('Class') == "Junior":
+			juni = 1 + juni
+		elif dic.get('Class') == "Senior":
+			seni = 1 + seni
+	classes = [("Freshman",fresh), ("Sophomore",soph), ("Junior",juni), ("Senior",seni)]
+	finalList = []
+	finalList = sorted(classes, key=lambda x: x[1], reverse=True)
+	return finalList
 
 
 def findMonth(a):
