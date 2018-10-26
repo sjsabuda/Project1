@@ -1,4 +1,3 @@
-
 import os
 import filecmp
 from dateutil.relativedelta import *
@@ -60,8 +59,15 @@ def findMonth(a):
 # Find the most common birth month form this data
 # Input: list of dictionaries
 # Output: Return the month (1-12) that had the most births in the data
-
-	pass
+	monthList = []
+	for dic in a:
+		monthList.append(dic.get("DOB"))
+	months = []
+	for word in monthList:
+			months.append(word.split('/')[0])
+	countList = Counter(months)
+	most = countList.most_common(1)[0][0]
+	return int(most)
 
 def mySortPrint(a,col,fileName):
 #Similar to mySort, but instead of returning single
@@ -69,8 +75,14 @@ def mySortPrint(a,col,fileName):
 # as fist,last,email
 #Input: list of dictionaries, col (key) to sort by and output file name
 #Output: No return value, but the file is written
+	newlist = sorted(a, key=lambda x: x[col])
+	f = str(fileName) 
+	keys = a[0].keys()
+	with open(f, 'w') as endcsv:
+		dict_writer = csv.DictWriter(endcsv,keys)
+		for line in newlist:
+			dict_writer.writerow({'First':(line['First'] + ','),'Last':(line['Last'] + ','),'Email':(line['Email']) })
 
-	pass
 
 def findAge(a):
 # def findAge(a):
@@ -78,8 +90,21 @@ def findAge(a):
 # Output: Return the average age of the students and round that age to the nearest
 # integer.  You will need to work with the DOB and the current date to find the current
 # age in years.
-
-	pass
+	DOB = ""
+	sm = 0
+	differenceDay=0
+	DOBList = []
+	ageList = []
+	today = datetime.today()
+	for x in a:
+		DOBList.append(x.get("DOB"))
+	for date in DOBList:
+		DOB = datetime.strptime(date, "%m/%d/%Y")
+		differenceDay = today - DOB
+		ageList.append(differenceDay.days/365)
+	avg = sum(ageList) // len(ageList)
+	numAvg = int(avg)
+	return numAvg
 
 
 ################################################################
